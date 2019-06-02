@@ -36,8 +36,6 @@ let notes = [
   }
 ]
 
-
-
 app.get('/', (req, res) => {
   res.send('<h1>Hello World!</h1>')
 })
@@ -70,11 +68,8 @@ app.post('/notes', (request, response) => {
   response.json(note)
 })
 
-app.post('/notes', (request, response) => {
-  const note = request.body
-  console.log(note)
-
-  response.json(note)
+app.get('/notes', (request, response) => {
+  response.json(notes)
 })
 
 app.get('/notes/:id', (request, response) => {
