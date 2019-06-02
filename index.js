@@ -58,11 +58,8 @@ app.post('/notes', (request, response) => {
   response.json(note)
 })
 
-app.post('/notes', (request, response) => {
-  const note = request.body
-  console.log(note)
-
-  response.json(note)
+app.get('/notes', (request, response) => {
+  response.json(notes)
 })
 
 app.get('/notes/:id', (request, response) => {
