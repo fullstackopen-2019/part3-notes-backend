@@ -26,7 +26,7 @@ const note = new Note({
   important: true,
 })
 
-note.save().then(response => {
-  console.log('note saved!');
-  mongoose.connection.close();
+note.save().then(() => {
+  console.log('note saved!')
+  mongoose.connection.close()
 })

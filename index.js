@@ -20,27 +20,6 @@ const requestLogger = (request, response, next) => {
 
 app.use(requestLogger)
 
-let notes = [
-  {
-    id: 1,
-    content: "HTML is easy",
-    date: "2019-05-30T17:30:31.098Z",
-    important: true
-  },
-  {
-    id: 2,
-    content: "Browser can execute only Javascript",
-    date: "2019-05-30T18:39:34.091Z",
-    important: false
-  },
-  {
-    id: 3,
-    content: "GET and POST are the most important methods of HTTP protocol",
-    date: "2019-05-30T19:20:14.298Z",
-    important: true
-  }
-]
-
 app.use(express.static('build'))
 
 app.get('/', (req, res) => {
@@ -51,7 +30,7 @@ app.post('/api/notes', (request, response, next) => {
   const body = request.body
 
   const note = new Note({
-    content: body.content, 
+    content: body.content,
     important: body.important || false,
     date: new Date(),
   })
@@ -63,7 +42,7 @@ app.post('/api/notes', (request, response, next) => {
       response.json(savedAndFormattedNote)
     })
     .catch(error => next(error))
-}) 
+})
 
 app.get('/api/notes', (request, response) => {
   Note.find({}).then(notes => {
@@ -100,7 +79,7 @@ app.put('/api/notes/:id', (request, response, next) => {
 
 app.delete('/api/notes/:id', (request, response, next) => {
   Note.findByIdAndRemove(request.params.id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))
@@ -115,7 +94,7 @@ app.use(unknownEndpoint)
 const errorHandler = (error, request, response, next) => {
   console.error(error.message)
 
-  if (error.name === 'CastError' && error.kind == 'ObjectId') {
+  if (error.name === 'CastError' && error.kind === 'ObjectId') {
     return response.status(400).send({ error: 'malformatted id' })
   } else if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
@@ -125,7 +104,7 @@ const errorHandler = (error, request, response, next) => {
 
 app.use(errorHandler)
 
-const PORT = process.env.PORT 
+const PORT = process.env.PORT
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
